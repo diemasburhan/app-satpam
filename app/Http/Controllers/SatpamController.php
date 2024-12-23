@@ -50,13 +50,11 @@ class SatpamController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        return view('satpam.edit', compact('satpam'));
-    }
+        $satpam = Satpam::findOrFail($id); // Find the satpam by id or fail
+        return view('satpam.edit', compact('satpam')); // Pass satpam to the edit view
+    }    
 
     /**
      * Update the specified resource in storage.

@@ -9,9 +9,10 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\JadwalTugasController;
 use App\Http\Controllers\LaporanKejadianController;
 use App\Http\Controllers\RoutineCheckController;
+use App\Http\Controllers\CCTVController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::middleware('auth')->group(function () {
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/laporankejadian', [LaporanKejadianController::class, 'index'])->name('laporankejadian.index');
     Route::get('/satpam', [SatpamController::class, 'index'])->name('satpam.index');
+    Route::get('/jadwal', [JadwalTugasController::class, 'index'])->name('jadwal.index');
 });
 
 Route::resource('satpam', SatpamController::class);
@@ -43,4 +45,6 @@ Route::resource('jadwal', JadwalTugasController::class);
 Route::resource('routine-check', RoutineCheckController::class);
 
 Route::put('/jadwal/{id}/update-status', [JadwalController::class, 'updateStatus'])->name('jadwal.updateStatus');
-Route::put('/routine-check/{id}/update-status', [RoutineCheckController::class, 'updateStatus'])->name('routine-check.updateStatus');
+Route::put('/jadwal/{id}', [JadwalTugasController::class, 'update'])->name('jadwal.update');
+
+Route::get('/cctv', [CCTVController::class, 'index'])->name('cctv.index');

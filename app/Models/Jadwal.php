@@ -11,7 +11,7 @@ class Jadwal extends Model
     /**
      * Table associated with the model.
      */
-    protected $table = 'jadwal';
+    protected $table = 'jadwal_tugas';
 
     /**
      * The attributes that are mass assignable.

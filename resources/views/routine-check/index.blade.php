@@ -23,10 +23,11 @@
                     <td>{{ $check->name }}</td>
                     <td>{{ $check->description }}</td>
                     <td>
-                        <form action="{{ route('routine-check.updateStatus', $check->id) }}" method="POST">
+                        <form action="{{ route('routine-check.update-status', $routineCheck->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            <input type="checkbox" name="checked" value="1" {{ $check->checked ? 'checked' : '' }} onChange="this.form.submit()">
+                            <input type="hidden" name="checked" value="1">
+                            <button type="submit" class="btn btn-success">Update Status</button>
                         </form>
                     </td>
                     <td>

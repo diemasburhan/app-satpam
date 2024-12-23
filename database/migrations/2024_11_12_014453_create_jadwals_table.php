@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jadwal_tugas', function (Blueprint $table) {
+        Schema::create('_tugas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('satpam_id')->constrained()->onDelete('cascade'); // Foreign key untuk satpam
             $table->date('tanggal'); // Tanggal tugas
@@ -24,6 +24,6 @@ return new class extends Migration
     
     public function down()
     {
-        Schema::dropIfExists('jadwal_tugas');
+        Schema::dropIfExists('_tugas');
     }
 };

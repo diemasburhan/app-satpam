@@ -66,16 +66,18 @@ class JadwalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jadwal $jadwal)
+    // Inside JadwalController.php
+    public function updateStatus($id)
     {
-        $request->validate([
-            'id_satpam' => 'required|integer',
-            'tanggal' => 'required|date',
-            'shift' => 'required|string',
-        ]);
+        // Find the Jadwal by ID
+        $jadwal = Jadwal::findOrFail($id);
 
-        $jadwal->update($request->all()); // Update data jadwal
-        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil diperbarui.');
+        // Update the status (you can adjust this based on your requirements)
+        $jadwal->status = 'completed'; // Or any status you want to set
+        $jadwal->save();
+
+        // Redirect back to the jadwal index page with a success message
+        return redirect()->route('jadwal.index')->with('success', 'Status updated successfully');
     }
 
     /**

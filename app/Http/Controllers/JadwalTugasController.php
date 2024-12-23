@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jadwal;
 use App\Models\JadwalTugas;
 use App\Models\Satpam;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class JadwalTugasController extends Controller
@@ -40,19 +41,40 @@ class JadwalTugasController extends Controller
         return redirect()->route('jadwal.index')->with('success', 'Jadwal Tugas berhasil ditambahkan.');
     }
 
-    // Menandai Tugas sebagai Selesai
-    public function updateStatus($id, Request $request)
+    // Metode untuk menampilkan form edit
+    public function edit($id)
     {
-        // Validasi data
+        $jadwal = Jadwal::findOrFail($id);  // Find the Jadwal by ID
+        $satpams = Satpam::all();  // Fetch all Satpam records
+        return view('jadwal.edit', compact('jadwal', 'satpams'));  // Pass both Jadwal and Satpam data to the view
+    }
+    
+
+    // In your JadwalTugasController.php
+    public function update(Request $request, $id)
+    {
+        // Validate the incoming data
         $request->validate([
-            'status' => 'required|string',
+            'id_satpam' => 'required|exists:satpams,id', // Ensure id_satpam exists in the satpams table
+            'tanggal' => 'required|date',
+            'shift' => 'required|in:pagi,malam',
+            'area' => 'required|string',
+            'status' => 'required|in:pending,in_progress,completed',
         ]);
 
-        // Cari jadwal berdasarkan ID
-        $jadwal = Jadwal::findOrFail($id); // Pastikan model Jadwal ada
-        $jadwal->status = $request->input('status');
-        $jadwal->save();
+        // Find the jadwal by its ID
+        $jadwal = Jadwal::findOrFail($id);
 
-        return response()->json(['message' => 'Status updated successfully']);
+        // Update the jadwal with the validated data
+        $jadwal->update([
+            'id_satpam' => $request->id_satpam,
+            'tanggal' => $request->tanggal,
+            'shift' => $request->shift,
+            'area' => $request->area,
+            'status' => $request->status,
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('jadwal.index')->with('success', 'Jadwal updated successfully');
     }
 }
